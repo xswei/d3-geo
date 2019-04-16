@@ -1,6 +1,6 @@
 # d3-geo
 
-Map projections are sometimes implemented as point transformations. For instance, spherical Mercator:
+地图投影有时作为点的转换实现。比如球形墨卡托:
 
 ```js
 function mercator(x, y) {
@@ -8,13 +8,13 @@ function mercator(x, y) {
 }
 ```
 
-This is a reasonable *mathematical* approach if your geometry consists of continuous, infinite point sets. Yet computers do not have infinite memory, so we must instead work with discrete geometry such as polygons and polylines!
+如果你的几何包含连续无限的点集时，这是一个合理的 *数学* 方法。然而，计算机并没有无限的内存，所以我们必须使用离散几何，比如多边形和折线!
 
-Discrete geometry makes the challenge of projecting from the sphere to the plane much harder. The edges of a spherical polygon are [geodesics](https://en.wikipedia.org/wiki/Geodesic) (segments of great circles), not straight lines. Projected to the plane, geodesics are curves in all map projections except [gnomonic](#geoGnomonic), and thus accurate projection requires interpolation along each arc. D3 uses [adaptive sampling](https://bl.ocks.org/mbostock/3795544) inspired by a popular [line simplification method](https://bost.ocks.org/mike/simplify/) to balance accuracy and performance.
+离散几何使得从球面投影到平面更加困难。球面多边形的边缘是[geodesics(测地线)](https://en.wikipedia.org/wiki/Geodesic)(大圆的部分)，而不是直线。测地线投射到平面上，除了 [gnomonic](#geoGnomonic) 之外所有的地图投影都是曲线，因此精确的投影需要沿每条弧插值。`D3` 使用 [adaptive sampling(自适应采样)](https://bl.ocks.org/mbostock/3795544)灵感来 [line simplification method(线简化方法)](https://bost.ocks.org/mike/simplify/)，以平衡精度和性能。
 
-The projection of polygons and polylines must also deal with the topological differences between the sphere and the plane. Some projections require cutting geometry that [crosses the antimeridian](https://bl.ocks.org/mbostock/3788999), while others require [clipping geometry to a great circle](https://bl.ocks.org/mbostock/3021474).
+多边形和折线的投影还必须处理球面与平面的拓扑差异。一些投影需要切割 [crosses the antimeridian(穿过子午线)](https://bl.ocks.org/mbostock/3788999) 的几何图形，而另一些投影则需要将几何图形 [clipping geometry to a great circle(切割成一个大圆)](https://bl.ocks.org/mbostock/3021474)。
 
-Spherical polygons also require a [winding order convention](https://bl.ocks.org/mbostock/a7bdfeb041e850799a8d3dce4d8c50c8) to determine which side of the polygon is the inside: the exterior ring for polygons smaller than a hemisphere must be clockwise, while the exterior ring for polygons [larger than a hemisphere](https://bl.ocks.org/mbostock/6713736) must be anticlockwise. Interior rings representing holes must use the opposite winding order of their exterior ring. This winding order convention is also used by [TopoJSON](https://github.com/topojson) and [ESRI shapefiles](https://github.com/mbostock/shapefile); however, it is the **opposite** convention of GeoJSON’s [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.6). (Also note that standard GeoJSON WGS84 uses planar equirectangular coordinates, not spherical coordinates, and thus may require [stitching](https://github.com/d3/d3-geo-projection/blob/master/README.md#geostitch) to remove antimeridian cuts.)
+球面多边形还需要一个 [winding order convention(缠绕顺序约定)](https://bl.ocks.org/mbostock/a7bdfeb041e850799a8d3dce4d8c50c8) 来确定多边形的哪边是内边: the exterior ring for polygons smaller than a hemisphere must be clockwise, while the exterior ring for polygons [larger than a hemisphere](https://bl.ocks.org/mbostock/6713736) must be anticlockwise. Interior rings representing holes must use the opposite winding order of their exterior ring. This winding order convention is also used by [TopoJSON](https://github.com/topojson) and [ESRI shapefiles](https://github.com/mbostock/shapefile); however, it is the **opposite** convention of GeoJSON’s [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.6). (Also note that standard GeoJSON WGS84 uses planar equirectangular coordinates, not spherical coordinates, and thus may require [stitching](https://github.com/d3/d3-geo-projection/blob/master/README.md#geostitch) to remove antimeridian cuts.)
 
 D3’s approach affords great expressiveness: you can choose the right projection, and the right aspect, for your data. D3 supports a wide variety of common and [unusual map projections](https://github.com/d3/d3-geo-projection). For more, see Part 2 of [The Toolmaker’s Guide](https://vimeo.com/106198518#t=20m0s).
 
