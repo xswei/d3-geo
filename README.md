@@ -16,9 +16,9 @@ function mercator(x, y) {
 
 球面多边形还需要一个 [winding order convention(缠绕顺序约定)](https://bl.ocks.org/mbostock/a7bdfeb041e850799a8d3dce4d8c50c8) 来确定多边形的哪边是内边: 小于半球的多边形的外环必须是顺时针方向, 而 [larger than a hemisphere(大于半球的多边形的外环)](https://bl.ocks.org/mbostock/6713736) 必须是逆时针的. 代表孔的内圈必须使用与其外圈的相反的环绕顺序。这种环绕规则也被 [TopoJSON](https://github.com/topojson) 和 [ESRI shapefiles](https://github.com/mbostock/shapefile) 采用。但是，它与 `GeoJSON` 的 [RFC 7946]((https://tools.ietf.org/html/rfc7946#section-3.1.6)) **相反**。(另请注意，标准 `GeoJSON WGS84` 使用平面的等距坐标，而不是球面坐标，因此可能需要 [stitching](https://github.com/d3/d3-geo-projection/blob/master/README.md#geostitch) 以去除对子午线的切割)。
 
-D3’s approach affords great expressiveness: you can choose the right projection, and the right aspect, for your data. D3 supports a wide variety of common and [unusual map projections](https://github.com/d3/d3-geo-projection). For more, see Part 2 of [The Toolmaker’s Guide](https://vimeo.com/106198518#t=20m0s).
+D3的方法提供了很好的表现力: 你可以为你的数据选择正确的投影和样貌。D3 支持许多常见的投影以及 [特殊的地理投影](https://github.com/d3/d3-geo-projection). 更多信息可以参考 [工具制作指南](https://vimeo.com/106198518#t=20m0s).
 
-D3 uses [GeoJSON](http://geojson.org/geojson-spec.html) to represent geographic features in JavaScript. (See also [TopoJSON](https://github.com/mbostock/topojson), an extension of GeoJSON that is significantly more compact and encodes topology.) To convert shapefiles to GeoJSON, use [shp2geo](https://github.com/mbostock/shapefile/blob/master/README.md#shp2geo), part of the [shapefile package](https://github.com/mbostock/shapefile). See [Command-Line Cartography](https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c) for an introduction to d3-geo and related tools.
+D3 使用 [GeoJSON](http://geojson.org/geojson-spec.html) 来表现地理特征. (也可以参考[TopoJSON](https://github.com/mbostock/topojson), 一种更加紧密的对 GeoJSON 的编码). 可以使用 [shp2geo](https://github.com/mbostock/shapefile/blob/master/README.md#shp2geo) 将 shape 文件转为 GeoJSON, 这是 [shapefile package](https://github.com/mbostock/shapefile) 的一部分. 有关 d3-geo 和相关工具的介绍，请参阅[ Command-Line Cartography](https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c).
 
 ## Installing
 
