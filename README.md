@@ -93,11 +93,11 @@ svg.selectAll("path")
 
 <a href="#path_area" name="path_area">#</a> <i>path</i>.<b>area</b>(<i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/path/area.js "Source")
 
-Returns the projected planar area (typically in square pixels) for the specified GeoJSON *object*. Point, MultiPoint, LineString and MultiLineString geometries have zero area. For Polygon and MultiPolygon geometries, this method first computes the area of the exterior ring, and then subtracts the area of any interior holes. This method observes any clipping performed by the [projection](#path_projection); see [*projection*.clipAngle](#projection_clipAngle) and [*projection*.clipExtent](#projection_clipExtent). This is the planar equivalent of [d3.geoArea](#geoArea).
+返回指定的 GeoJSON 对象投影后的平面区域的面积(通常是平方像素). `Point`, `MultiPoint`, `LineString` 和 `MultiLineString` 面积为零. 对于 `Polygon` 和 `MultiPolygon`, 这个方法会首先计算外环的面积，然后减去镂空的面积. 这个方法遵循任何 [projection](#path_projection) 的裁剪; 参考 [*projection*.clipAngle](#projection_clipAngle) 和 [*projection*.clipExtent](#projection_clipExtent). 这与 [d3.geoBounds](#geoBounds) 的平面形式等价.
 
 <a href="#path_bounds" name="path_bounds">#</a> <i>path</i>.<b>bounds</b>(<i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/path/bounds.js "Source")
 
-Returns the projected planar bounding box (typically in pixels) for the specified GeoJSON *object*. The bounding box is represented by a two-dimensional array: \[\[*x₀*, *y₀*\], \[*x₁*, *y₁*\]\], where *x₀* is the minimum *x*-coordinate, *y₀* is the minimum *y*-coordinate, *x₁* is maximum *x*-coordinate, and *y₁* is the maximum *y*-coordinate. This is handy for, say, zooming in to a particular feature. (Note that in projected planar coordinates, the minimum latitude is typically the maximum *y*-value, and the maximum latitude is typically the minimum *y*-value.) This method observes any clipping performed by the [projection](#path_projection); see [*projection*.clipAngle](#projection_clipAngle) and [*projection*.clipExtent](#projection_clipExtent). This is the planar equivalent of [d3.geoBounds](#geoBounds).
+返回指定的 GeoJSON 对象投影后的平面包裹框(通常是像素). 包裹框被表示为一个二维数组: \[\[*x₀*, *y₀*\], \[*x₁*, *y₁*\]\], 其中 *x₀* 是最小 *x*-坐标, *y₀* 是最小 *y*-坐标, *x₁* 是最大 *x*-坐标, and *y₁* 是最大 *y*-坐标. 这对于缩放到特定的特性非常方便. (注意, 在投影平面坐标中, 最小纬度通常是最大 y 值, 而最大纬度通常是最小 y 值). 这个方法遵循任何 [projection](#path_projection) 的裁剪; 参考 [*projection*.clipAngle](#projection_clipAngle) 和 [*projection*.clipExtent](#projection_clipExtent). 这与 [d3.geoArea](#geoArea) 的平面形式等价.
 
 <a href="#path_centroid" name="path_centroid">#</a> <i>path</i>.<b>centroid</b>(<i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/path/centroid.js "Source")
 
