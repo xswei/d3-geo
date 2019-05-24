@@ -22,7 +22,7 @@ D3 使用 [GeoJSON](http://geojson.org/geojson-spec.html) 来表现地理特征.
 
 ## Installing
 
-If you use NPM, `npm install d3-geo`. Otherwise, download the [latest release](https://github.com/d3/d3-geo/releases/latest). You can also load directly from [d3js.org](https://d3js.org), either as a [standalone library](https://d3js.org/d3-geo.v1.min.js) or as part of [D3 4.0](https://github.com/d3/d3). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3` global is exported:
+使用 `NPM`: `npm install d3-geo`. 此外还可以下载 [latest release](https://github.com/d3/d3-geo/releases/latest). 可以直接从 [d3js.org](https://d3js.org) 以 [standalone library](https://d3js.org/d3-geo.v1.min.js) 或作为 [D3 4.0](https://github.com/d3/d3) 的一部分直接引入. 支持 `AMD`, `CommonJS` 和基础的标签引入形式. 如果使用标签引入会暴露 `d3` 全局变量:
 
 ```html
 <script src="https://d3js.org/d3-array.v1.min.js"></script>
@@ -35,7 +35,7 @@ var projection = d3.geoNaturalEarth1(),
 </script>
 ```
 
-[Try d3-geo in your browser.](https://tonicdev.com/npm/d3-geo)
+[在浏览器中测试 d3-geo.](https://tonicdev.com/npm/d3-geo)
 
 ## API Reference
 
@@ -50,29 +50,29 @@ var projection = d3.geoNaturalEarth1(),
 
 ### Paths
 
-The geographic path generator, [d3.geoPath](#geoPath), is similar to the shape generators in [d3-shape](https://github.com/d3/d3-shape): given a GeoJSON geometry or feature object, it generates an SVG path data string or [renders the path to a Canvas](https://bl.ocks.org/mbostock/3783604). Canvas is recommended for dynamic or interactive projections to improve performance. Paths can be used with [projections](#projections) or [transforms](#transforms), or they can be used to render planar geometry directly to Canvas or SVG.
+地理路径生成器, [d3.geoPath](#geoPath) 与 [d3-shape](https://github.com/d3/d3-shape) 很像: 给定一个 GeoJSON 或者特征对象，会生成一个 `SVG` 路径字符串，也可以将其 [渲染到 Canvas](https://bl.ocks.org/mbostock/3783604) 上. 建议使用 Canvas 进行动态或者交互式投影以提高性能. 路径生成器可以与 [projections](#projections) 或 [transforms](#transforms) 一起使用，或者可以直接将平面几何呈现到 Canvas 或 SVG 中.
 
 <a href="#geoPath" name="geoPath">#</a> d3.<b>geoPath</b>([<i>projection</i>[, <i>context</i>]]) [<>](https://github.com/d3/d3-geo/blob/master/src/path/index.js "Source")
 
-Creates a new geographic path generator with the default settings. If *projection* is specified, sets the [current projection](#path_projection). If *context* is specified, sets the [current context](#path_context).
+使用默认的设置创建一个新的地理路径生成器. 如果指定了 *projection*, 则设置 [当前投影](#path_projection). 如果指定了 *context* 则设置当前 [当前上下文](#path_context).
 
 <a href="#_path" name="_path">#</a> <i>path</i>(<i>object</i>[, <i>arguments…</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/path/index.js "Source")
 
-Renders the given *object*, which may be any GeoJSON feature or geometry object:
+渲染指定的 *object*, 可以是一个 GeoJSON 特征或者几何对象:
 
-* Point - a single position.
-* MultiPoint - an array of positions.
-* LineString - an array of positions forming a continuous line.
-* MultiLineString - an array of arrays of positions forming several lines.
-* Polygon - an array of arrays of positions forming a polygon (possibly with holes).
-* MultiPolygon - a multidimensional array of positions forming multiple polygons.
-* GeometryCollection - an array of geometry objects.
-* Feature - a feature containing one of the above geometry objects.
-* FeatureCollection - an array of feature objects.
+* Point - 单个点.
+* MultiPoint - 一组点集.
+* LineString - 一组点集表示的连续的线.
+* MultiLineString - 组点集数组表示的多条线.
+* Polygon - 点集数组表示的多边形(可能有镂空).
+* MultiPolygon - 表示多个多边形的点集.
+* GeometryCollection - 一组几何对象.
+* Feature - 包含上述几何对象之一的特征.
+* FeatureCollection - 一组集合特征.
 
-The type *Sphere* is also supported, which is useful for rendering the outline of the globe; a sphere has no coordinates. Any additional *arguments* are passed along to the [pointRadius](#path_pointRadius) accessor.
+也支持类型为 *Sphere*, 在绘制地球轮廓时很有用; 球体没有坐标系. 任何额外的参数都会传递给 [pointRadius](#path_pointRadius) 访问器.
 
-To display multiple features, combine them into a feature collection:
+显示多个特征时, 可以将其与特征集合结合:
 
 ```js
 svg.append("path")
@@ -80,7 +80,7 @@ svg.append("path")
     .attr("d", d3.geoPath());
 ```
 
-Or use multiple path elements:
+或者使用多个 `path` 元素:
 
 ```js
 svg.selectAll("path")
@@ -89,7 +89,7 @@ svg.selectAll("path")
     .attr("d", d3.geoPath());
 ```
 
-Separate path elements are typically slower than a single path element. However, distinct path elements are useful for styling and interaction (e.g., click or mouseover). Canvas rendering (see [*path*.context](#path_context)) is typically faster than SVG, but requires more effort to implement styling and interaction.
+多个 path 元素通常比单个 path 元素慢. 但是多个 path 在单独设置样式以及交互时很有用(比如点击和鼠标移入). Canvas 的渲染(可以参考[*path*.context](#path_context)) 通常比 SVG 更快, 但是需要更多的精力去设置样式和交互.
 
 <a href="#path_area" name="path_area">#</a> <i>path</i>.<b>area</b>(<i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/path/area.js "Source")
 
