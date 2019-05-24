@@ -101,21 +101,21 @@ svg.selectAll("path")
 
 <a href="#path_centroid" name="path_centroid">#</a> <i>path</i>.<b>centroid</b>(<i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/path/centroid.js "Source")
 
-Returns the projected planar centroid (typically in pixels) for the specified GeoJSON *object*. This is handy for, say, labeling state or county boundaries, or displaying a symbol map. For example, a [noncontiguous cartogram](https://bl.ocks.org/mbostock/4055908) might scale each state around its centroid. This method observes any clipping performed by the [projection](#path_projection); see [*projection*.clipAngle](#projection_clipAngle) and [*projection*.clipExtent](#projection_clipExtent). This is the planar equivalent of [d3.geoCentroid](#geoCentroid).
+返回指定的 GeoJSON 对象投影后的平面质心(通常是像素). 这对于标记州或县的边界或显示符号非常方便. 例如 [非邻接统计地图](https://bl.ocks.org/mbostock/4055908) 可以以质心为中心进行缩放. 这个方法遵循任何 [projection](#path_projection) 的裁剪; 参考 [*projection*.clipAngle](#projection_clipAngle) 和 [*projection*.clipExtent](#projection_clipExtent). 这与 [d3.geoCentroid](#geoCentroid) 的平面形式等价.
 
 <a href="#path_measure" name="path_measure">#</a> <i>path</i>.<b>measure</b>(<i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/path/measure.js "Source")
 
-Returns the projected planar length (typically in pixels) for the specified GeoJSON *object*. Point and MultiPoint geometries have zero length. For Polygon and MultiPolygon geometries, this method computes the summed length of all rings. This method observes any clipping performed by the [projection](#path_projection); see [*projection*.clipAngle](#projection_clipAngle) and [*projection*.clipExtent](#projection_clipExtent). This is the planar equivalent of [d3.geoLength](#geoLength).
+返回指定的 GeoJSON 对象投影后的平面周长(通常是像素). `Point`, `MultiPoint`, `LineString` 和 `MultiLineString` 周长为零. 对于 `Polygon` 和 `MultiPolygon`, 这个方法会计算所有环的总长度. 这个方法遵循任何 [projection](#path_projection) 的裁剪; 参考 [*projection*.clipAngle](#projection_clipAngle) 和 [*projection*.clipExtent](#projection_clipExtent). 这与 [d3.geoLength](#geoLength) 的平面形式等价.
 
 <a href="#path_projection" name="path_projection">#</a> <i>path</i>.<b>projection</b>([<i>projection</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/path/index.js "Source")
 
-If a *projection* is specified, sets the current projection to the specified projection. If *projection* is not specified, returns the current projection, which defaults to null. The null projection represents the identity transformation: the input geometry is not projected and is instead rendered directly in raw coordinates. This can be useful for fast rendering of [pre-projected geometry](https://bl.ocks.org/mbostock/5557726), or for fast rendering of the equirectangular projection.
+如果指定了 *projection* 则将当前投影设置为指定的投影. 如果没有指定 *projection* 则返回当前的投影, 默认为 `null`. `null` 投影表示一个恒等转换: 输入的集合不被计算, 而是直接在原始坐标中呈现. 这对于 [预投影](https://bl.ocks.org/mbostock/5557726) 来说省略了坐标计算因此速度更快, 或用于等矩形投影的快速绘制.
 
-The given *projection* is typically one of D3’s built-in [geographic projections](#projections); however, any object that exposes a [*projection*.stream](#projection_stream) function can be used, enabling the use of [custom projections](https://bl.ocks.org/mbostock/5663666). See D3’s [transforms](#transforms) for more examples of arbitrary geometric transformations.
+给定的 *projection* 通常是 `D3` 的内置 [地理投影](#projections); 但是任何暴露 [*projection*.stream](#projection_stream) 函数的对象都可以被使用. 参考 `D3` 的 [transforms](#transforms) 获取有关任意几何变换的更多例子.
 
 <a href="#path_context" name="path_context">#</a> <i>path</i>.<b>context</b>([<i>context</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/path/index.js "Source")
 
-If *context* is specified, sets the current render context and returns the path generator. If the *context* is null, then the [path generator](#_path) will return an SVG path string; if the context is non-null, the path generator will instead call methods on the specified context to render geometry. The context must implement the following subset of the [CanvasRenderingContext2D API](https://www.w3.org/TR/2dcontext/#canvasrenderingcontext2d):
+如果指定了 *context* 则将当前渲染上下设置为指定的 *context* 并返回当前路径生成器. 如果 *context* 为 `null` 则[path generator](#_path) 将返回 SVG 路径字符串; 如果 *context* 非 `null` 则路径生成器将调用指定上下文上的方法来呈现几何图形. 上下文必须实现 [CanvasRenderingContext2D API](https://www.w3.org/TR/2dcontext/#canvasrenderingcontext2d) 的以下子集:
 
 * *context*.beginPath()
 * *context*.moveTo(*x*, *y*)
@@ -123,44 +123,44 @@ If *context* is specified, sets the current render context and returns the path 
 * *context*.arc(*x*, *y*, *radius*, *startAngle*, *endAngle*)
 * *context*.closePath()
 
-If a *context* is not specified, returns the current render context which defaults to null.
+如果没有指定 *context* 则返回当前的渲染上下文, 默认为 `null`.
 
 <a href="#path_pointRadius" name="path_pointRadius">#</a> <i>path</i>.<b>pointRadius</b>([<i>radius</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/path/index.js "Source")
 
-If *radius* is specified, sets the radius used to display Point and MultiPoint geometries to the specified number. If *radius* is not specified, returns the current radius accessor, which defaults to 4.5. While the radius is commonly specified as a number constant, it may also be specified as a function which is computed per feature, being passed the any arguments passed to the [path generator](#_path). For example, if your GeoJSON data has additional properties, you might access those properties inside the radius function to vary the point size; alternatively, you could [d3.symbol](https://github.com/d3/d3-shape#symbols) and a [projection](#geoProjection) for greater flexibility.
+如果指定了 *radius* 则将当前显示的 `Point` 和 `MultiPoint` 的半径设置为指定的数值. 如果没有指定 *radius* 则返回当前半径访问器, 默认为 `4.5`. 半径通常被指定为一个常数, 也可以被指定为一个返回数值的函数, 函数形式可以为每个特征单独计算半径值, 会传递 [path generator](#_path) 的参数. 例如, 如果你的 GeoJSON 数据有额外的数属性, 你可以使用访问器函数的形式去设置不同的半径; 也可以使用 [d3.symbol](https://github.com/d3/d3-shape#symbols) 和 [projection](#geoProjection) 来获取更大的灵活性.
 
 ### Projections
 
-Projections transform spherical polygonal geometry to planar polygonal geometry. D3 provides implementations of several classes of standard projections:
+投影可以将球面多边形几何映射为平面多边形几何. `D3` 提供集中标准投影的实现:
 
-* [Azimuthal](#azimuthal-projections)
-* [Composite](#composite-projections)
-* [Conic](#conic-projections)
-* [Cylindrical](#cylindrical-projections)
+* [Azimuthal(方位投影)](#azimuthal-projections)
+* [Composite(合成投影)](#composite-projections)
+* [Conic(圆锥投影)](#conic-projections)
+* [Cylindrical(圆柱投影)](#cylindrical-projections)
 
-For many more projections, see [d3-geo-projection](https://github.com/d3/d3-geo-projection). You can implement [custom projections](#raw-projections) using [d3.geoProjection](#geoProjection) or [d3.geoProjectionMutator](#geoProjectionMutator).
+更多投影参考 [d3-geo-projection](https://github.com/d3/d3-geo-projection). 你也可以使用 [d3.geoProjection](#geoProjection) 或者 [d3.geoProjectionMutator](#geoProjectionMutator) 实现 [自定义投影](#raw-projections)
 
 <a href="#_projection" name="_projection">#</a> <i>projection</i>(<i>point</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-Returns a new array \[*x*, *y*\] (typically in pixels) representing the projected point of the given *point*. The point must be specified as a two-element array \[*longitude*, *latitude*\] in degrees. May return null if the specified *point* has no defined projected position, such as when the point is outside the clipping bounds of the projection.
+返回一个新的数组 \[*x*, *y*\](通常是像素) 来表示给定的 *point* 经过投影后的坐标. 给定的点必须是以度为单位的 \[*longitude*, *latitude*\] 形式. 如果给定的 *point* 没有定义投影位置则可能返回 `null`, 比如当点在投影的裁剪边界之外时.
 
 <a href="#projection_invert" name="projection_invert">#</a> <i>projection</i>.<b>invert</b>(<i>point</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-Returns a new array \[*longitude*, *latitude*\] in degrees representing the unprojected point of the given projected *point*. The point must be specified as a two-element array \[*x*, *y*\] (typically in pixels). May return null if the specified *point* has no defined projected position, such as when the point is outside the clipping bounds of the projection.
+根据指定的点坐标 \[*x*, *y*\](通常是像素) 计算出该点对应的经过投影前的以度为单位的坐标 \[*longitude*, *latitude*\](逆投影). 如果指定的点没有定义投影位置时可能返回 `null`, 例如当点在投影的裁剪边界之外时.
 
-This method is only defined on invertible projections.
+这种方法只定义在可逆投影上.
 
 <a href="#projection_stream" name="projection_stream">#</a> <i>projection</i>.<b>stream</b>(<i>stream</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-Returns a [projection stream](#streams) for the specified output *stream*. Any input geometry is projected before being streamed to the output stream. A typical projection involves several geometry transformations: the input geometry is first converted to radians, rotated on three axes, clipped to the small circle or cut along the antimeridian, and lastly projected to the plane with adaptive resampling, scale and translation.
+为指定的输出 *stream(流)* 返回 [projection stream(投影流)](#streams). 任何输入的几何图形输出之前都会被投影. 一个典型的投影包括几个几何变换: 首先将输入几何图形转换为弧度, 三轴旋转, 裁剪为小圆或沿着子午线剪切, 最后通过自适应重采样, 缩放和平移投影到平面上.
 
 <a href="#projection_preclip" name="projection_preclip">#</a> <i>projection</i>.<b>preclip</b>([<i>preclip</i>])
 
-If *preclip* is specified, sets the projection’s spherical clipping to the specified function and returns the projection. If *preclip* is not specified, returns the current spherical clipping function (see [preclip](#preclip)).
+如果指定了 *preclip* 则将投影的球形裁剪设置为指定的裁剪函数并返回投影. 如果没有指定 *preclip* 则返回当前的预裁剪函数(参考 [preclip](#preclip)).
 
 <a href="#projection_postclip" name="projection_postclip">#</a> <i>projection</i>.<b>postclip</b>([<i>postclip</i>])
 
-If *postclip* is specified, sets the projection’s cartesian clipping to the specified function and returns the projection. If *postclip* is not specified, returns the current cartesian clipping function (see [postclip](#postclip)).
+如果指定了 *postclip*, 则将投影的笛卡尔裁剪设置为指定的函数并返回投影. 如果没有指定 *postclip* 则返回当前的笛卡尔坐标裁剪(参考 [postclip](#postclip)).
 
 <a href="#projection_clipAngle" name="projection_clipAngle">#</a> <i>projection</i>.<b>clipAngle</b>([<i>angle</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
