@@ -12,9 +12,9 @@ function mercator(x, y) {
 
 离散几何使得从球面投影到平面更加困难。球面多边形的边缘是[geodesics(测地线)](https://en.wikipedia.org/wiki/Geodesic)(大圆的部分)，而不是直线。测地线投射到平面上，除了 [gnomonic](#geoGnomonic) 之外所有的地图投影都是曲线，因此精确的投影需要沿每条弧插值。`D3` 使用 [adaptive sampling(自适应采样)](https://bl.ocks.org/mbostock/3795544)灵感来 [line simplification method(线简化方法)](https://bost.ocks.org/mike/simplify/)，以平衡精度和性能。
 
-多边形和折线的投影还必须处理球面与平面的拓扑差异。一些投影需要切割 [crosses the antimeridian(穿过子午线)](https://bl.ocks.org/mbostock/3788999) 的几何图形，而另一些投影则需要将几何图形 [clipping geometry to a great circle(切割成一个大圆)](https://bl.ocks.org/mbostock/3021474)。
+多边形和折线的投影还必须处理球面与平面的拓扑差异。一些投影需要切割 [对向子午线](https://bl.ocks.org/mbostock/3788999) 的几何图形，而另一些投影则需要将几何图形 [裁剪为一个大圆](https://bl.ocks.org/mbostock/3021474)。
 
-球面多边形还需要一个 [winding order convention(缠绕顺序约定)](https://bl.ocks.org/mbostock/a7bdfeb041e850799a8d3dce4d8c50c8) 来确定多边形的哪边是内边: 小于半球的多边形的外环必须是顺时针方向, 而 [larger than a hemisphere(大于半球的多边形的外环)](https://bl.ocks.org/mbostock/6713736) 必须是逆时针的. 代表孔的内圈必须使用与其外圈的相反的环绕顺序。这种环绕规则也被 [TopoJSON](https://github.com/topojson) 和 [ESRI shapefiles](https://github.com/mbostock/shapefile) 采用。但是，它与 `GeoJSON` 的 [RFC 7946]((https://tools.ietf.org/html/rfc7946#section-3.1.6)) **相反**。(另请注意，标准 `GeoJSON WGS84` 使用平面的等距坐标，而不是球面坐标，因此可能需要 [stitching](https://github.com/d3/d3-geo-projection/blob/master/README.md#geostitch) 以去除对子午线的切割)。
+球面多边形还需要一个 [winding order convention(缠绕顺序约定)](https://bl.ocks.org/mbostock/a7bdfeb041e850799a8d3dce4d8c50c8) 来确定多边形的哪边是内边: 小于半球的多边形的外环必须是顺时针方向, 而 [larger than a hemisphere(大于半球的多边形的外环)](https://bl.ocks.org/mbostock/6713736) 必须是逆时针的. 代表孔的内圈必须使用与其外圈的相反的环绕顺序。这种环绕规则也被 [TopoJSON](https://github.com/topojson) 和 [ESRI shapefiles](https://github.com/mbostock/shapefile) 采用。但是，它与 `GeoJSON` 的 [RFC 7946]((https://tools.ietf.org/html/rfc7946#section-3.1.6)) **相反**。(另请注意，标准 `GeoJSON WGS84` 使用平面的等距坐标，而不是球面坐标，因此可能需要 [stitching](https://github.com/d3/d3-geo-projection/blob/master/README.md#geostitch) 以去除对对向子午线的切割)。
 
 D3的方法提供了很好的表现力: 你可以为你的数据选择正确的投影和样貌。D3 支持许多常见的投影以及 [特殊的地理投影](https://github.com/d3/d3-geo-projection). 更多信息可以参考 [工具制作指南](https://vimeo.com/106198518#t=20m0s).
 
@@ -152,7 +152,7 @@ svg.selectAll("path")
 
 <a href="#projection_stream" name="projection_stream">#</a> <i>projection</i>.<b>stream</b>(<i>stream</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-为指定的输出 *stream(流)* 返回 [projection stream(投影流)](#streams). 任何输入的几何图形输出之前都会被投影. 一个典型的投影包括几个几何变换: 首先将输入几何图形转换为弧度, 三轴旋转, 裁剪为小圆或沿着子午线剪切, 最后通过自适应重采样, 缩放和平移投影到平面上.
+为指定的输出 *stream(流)* 返回 [projection stream(投影流)](#streams). 任何输入的几何图形输出之前都会被投影. 一个典型的投影包括几个几何变换: 首先将输入几何图形转换为弧度, 三轴旋转, 裁剪或沿着对向子午线剪切, 最后通过自适应重采样, 缩放和平移投影到平面上.
 
 <a href="#projection_preclip" name="projection_preclip">#</a> <i>projection</i>.<b>preclip</b>([<i>preclip</i>])
 
@@ -164,9 +164,9 @@ svg.selectAll("path")
 
 <a href="#projection_clipAngle" name="projection_clipAngle">#</a> <i>projection</i>.<b>clipAngle</b>([<i>angle</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-If *angle* is specified, sets the projection’s clipping circle radius to the specified angle in degrees and returns the projection. If *angle* is null, switches to [antimeridian cutting](https://bl.ocks.org/mbostock/3788999) rather than small-circle clipping. If *angle* is not specified, returns the current clip angle which defaults to null. Small-circle clipping is independent of viewport clipping via [*projection*.clipExtent](#projection_clipExtent).
+如果指定了 *angle* 则以度为单位设置投影的裁剪角度并返回投影. 如果 *angle* 为 `null` 则切换为 [对向子午线裁剪](https://bl.ocks.org/mbostock/3788999) 而不是 `small-circle` 裁剪. 如果没有指定 *angle* 则返回当前的裁剪角度, 默认为 `null`. `small-circle` 独立于通过 [*projection*.clipExtent](#projection_clipExtent) 定义的视窗裁剪.
 
-See also [*projection*.preclip](#projection_preclip), [d3.geoClipAntimeridian](#geoClipAntimeridian), [d3.geoClipCircle](#geoClipCircle).
+可以参考 [*projection*.preclip](#projection_preclip), [d3.geoClipAntimeridian](#geoClipAntimeridian), [d3.geoClipCircle](#geoClipCircle).
 
 <a href="#projection_clipExtent" name="projection_clipExtent">#</a> <i>projection</i>.<b>clipExtent</b>([<i>extent</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
