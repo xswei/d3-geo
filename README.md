@@ -170,9 +170,9 @@ svg.selectAll("path")
 
 <a href="#projection_clipExtent" name="projection_clipExtent">#</a> <i>projection</i>.<b>clipExtent</b>([<i>extent</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-If *extent* is specified, sets the projection’s viewport clip extent to the specified bounds in pixels and returns the projection. The *extent* bounds are specified as an array \[\[<i>x₀</i>, <i>y₀</i>\], \[<i>x₁</i>, <i>y₁</i>\]\], where <i>x₀</i> is the left-side of the viewport, <i>y₀</i> is the top, <i>x₁</i> is the right and <i>y₁</i> is the bottom. If *extent* is null, no viewport clipping is performed. If *extent* is not specified, returns the current viewport clip extent which defaults to null. Viewport clipping is independent of small-circle clipping via [*projection*.clipAngle](#projection_clipAngle).
+如果指定了 *extent* 则将投影的视窗裁剪范围设置为指定的像素包裹框并返回投影. *extent* 以数组 \[\[<i>x₀</i>, <i>y₀</i>\], \[<i>x₁</i>, <i>y₁</i>\]\] 的形式指定, 其中 <i>x₀</i> 为视窗的左侧坐标, <i>y₀</i> 为顶部, <i>x₁</i> 为右侧, <i>y₁</i> 为底部坐标. 如果 *extent* 为 `null` 则不会执行视窗裁剪. 如果 *extent* 没有指定则返回当前的视窗裁剪范围, 默认为 `null`. 视窗裁剪独立于通过 [*projection*.clipAngle](#projection_clipAngle) 设置的 `small-circle` 裁剪.
 
-See also [*projection*.postclip](#projection_postclip), [d3.geoClipRectangle](#geoClipRectangle).
+参考 [*projection*.postclip](#projection_postclip), [d3.geoClipRectangle](#geoClipRectangle).
 
 <a href="#projection_scale" name="projection_scale">#</a> <i>projection</i>.<b>scale</b>([<i>scale</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
