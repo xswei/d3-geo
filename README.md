@@ -176,19 +176,19 @@ svg.selectAll("path")
 
 <a href="#projection_scale" name="projection_scale">#</a> <i>projection</i>.<b>scale</b>([<i>scale</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-If *scale* is specified, sets the projection’s scale factor to the specified value and returns the projection. If *scale* is not specified, returns the current scale factor; the default scale is projection-specific. The scale factor corresponds linearly to the distance between projected points; however, absolute scale factors are not equivalent across projections.
+如果指定了 *scale* 则将投影的缩放因子设置为指定的值并返回投影. 如果没有指定 *scale* 则返回当前的缩放因子, 默认的缩放因子由具体的投影方式决定. 缩放因子与投影点之间的距离成线性关系; 但是在不同的投影中不同.
 
 <a href="#projection_translate" name="projection_translate">#</a> <i>projection</i>.<b>translate</b>([<i>translate</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-If *translate* is specified, sets the projection’s translation offset to the specified two-element array [<i>t<sub>x</sub></i>, <i>t<sub>y</sub></i>] and returns the projection. If *translate* is not specified, returns the current translation offset which defaults to [480, 250]. The translation offset determines the pixel coordinates of the projection’s [center](#projection_center). The default translation offset places ⟨0°,0°⟩ at the center of a 960×500 area.
+如果指定了 *translate* 则将投影的平移偏移量设置为指定的二元数组 [<i>t<sub>x</sub></i>, <i>t<sub>y</sub></i>] 并返回投影. 如果没有指定 *translate* 则返回当前的平移偏移, 默认为 [480, 250]. 平移偏移量决定了 [投影中心](#projection_center) 的像素坐标. 默认的平移偏移量将 ⟨0°,0°⟩ 放置在 960×500 的区域中心.
 
 <a href="#projection_center" name="projection_center">#</a> <i>projection</i>.<b>center</b>([<i>center</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-If *center* is specified, sets the projection’s center to the specified *center*, a two-element array of longitude and latitude in degrees and returns the projection. If *center* is not specified, returns the current center, which defaults to ⟨0°,0°⟩.
+如果指定了 *center* 则将投影的中心设置为指定的以度为单位的 longitude 和 latitude 组成的二元数组 *center* 并返回投影. 如果没有指定 *center* 则返回当前的投影中心, 默认为 ⟨0°,0°⟩.
 
 <a href="#projection_angle" name="projection_angle">#</a> <i>projection</i>.<b>angle</b>([<i>angle</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-If *angle* is specified, sets the projection’s post-projection planar rotation angle to the specified *angle* in degrees and returns the projection. If *angle* is not specified, returns the projection’s current angle, which defaults to 0°. Note that it may be faster to rotate during rendering (e.g., using [*context*.rotate](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/rotate)) rather than during projection.
+如果指定了 *angle* 则将投影后的旋转角度设置为指定的以度为单位的角度并返回投影. 如果没有指定 *angle* 则返回当前投影角度, 默认为 0°. 注意, 在渲染期间旋转(比如使用 [*context*.rotate](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/rotate)) 可能比通过投影旋转更快.
 
 <a href="#projection_rotate" name="projection_rotate">#</a> <i>projection</i>.<b>rotate</b>([<i>angles</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
