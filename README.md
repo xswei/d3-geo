@@ -192,11 +192,11 @@ svg.selectAll("path")
 
 <a href="#projection_rotate" name="projection_rotate">#</a> <i>projection</i>.<b>rotate</b>([<i>angles</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-If *rotation* is specified, sets the projection’s [three-axis spherical rotation](https://bl.ocks.org/mbostock/4282586) to the specified *angles*, which must be a two- or three-element array of numbers [*lambda*, *phi*, *gamma*] specifying the rotation angles in degrees about [each spherical axis](https://bl.ocks.org/mbostock/4282586). (These correspond to [yaw, pitch and roll](http://en.wikipedia.org/wiki/Aircraft_principal_axes).) If the rotation angle *gamma* is omitted, it defaults to 0. See also [d3.geoRotation](#geoRotation). If *rotation* is not specified, returns the current rotation which defaults [0, 0, 0].
+如果指定了 *rotation* 则将投影的 [三轴球形旋转](https://bl.ocks.org/mbostock/4282586) 设置为指定的 *angles*, 角度必须是包含两个或三个元素的表示旋转角度的数组 [*lambda*, *phi*, *gamma*] 用以表示 [每个球面轴](https://bl.ocks.org/mbostock/4282586). (分别对应 [偏航，俯仰和横滚](http://en.wikipedia.org/wiki/Aircraft_principal_axes)) 如果 *gamma* 没有指定则默认为 `0`. [d3.geoRotation](#geoRotation) 也同理. 如果没有指定 *rotation* 则返回当前的角度默认为 [0, 0, 0].
 
 <a href="#projection_precision" name="projection_precision">#</a> <i>projection</i>.<b>precision</b>([<i>precision</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-If *precision* is specified, sets the threshold for the projection’s [adaptive resampling](https://bl.ocks.org/mbostock/3795544) to the specified value in pixels and returns the projection. This value corresponds to the [Douglas–Peucker](http://en.wikipedia.org/wiki/Ramer–Douglas–Peucker_algorithm) distance. If *precision* is not specified, returns the projection’s current resampling precision which defaults to √0.5 ≅ 0.70710…
+如果指定了 *precision* 则将投影的 [自适应重采样]((https://bl.ocks.org/mbostock/3795544)) 阈值设置为指定的像素值并返回投影. 这个值对应 [Douglas–Peucker](http://en.wikipedia.org/wiki/Ramer–Douglas–Peucker_algorithm) 距离. 如果 *precision* 没有指定则返回投影当前的采样精度, 默认为 √0.5 ≅ 0.70710…
 
 <a href="#projection_fitExtent" name="projection_fitExtent">#</a> <i>projection</i>.<b>fitExtent</b>(<i>extent</i>, <i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
