@@ -211,7 +211,7 @@ var projection = d3.geoTransverseMercator()
     .fitExtent([[20, 20], [940, 480]], nj);
 ```
 
-在确定了缩放和平移之后, 任何 [clip extent](#projection_clipExtent) 将会被忽略. 用来计算给定对象包裹框的 [precision](#projection_precision) 计算的有效等级为 150.
+在确定了缩放和平移之后, 任何 [clip extent](#projection_clipExtent) 将会被忽略. 用来计算给定对象包裹框的 [precision](#projection_precision) 计算的有效等级为 150.
 
 <a href="#projection_fitSize" name="projection_fitSize">#</a> <i>projection</i>.<b>fitSize</b>(<i>size</i>, <i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
