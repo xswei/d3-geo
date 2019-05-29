@@ -200,9 +200,10 @@ svg.selectAll("path")
 
 <a href="#projection_fitExtent" name="projection_fitExtent">#</a> <i>projection</i>.<b>fitExtent</b>(<i>extent</i>, <i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-Sets the projection’s [scale](#projection_scale) and [translate](#projection_translate) to fit the specified GeoJSON *object* in the center of the given *extent*. The extent is specified as an array \[\[x₀, y₀\], \[x₁, y₁\]\], where x₀ is the left side of the bounding box, y₀ is the top, x₁ is the right and y₁ is the bottom. Returns the projection.
+调整投影的 [scale](#projection_scale) 和 [translate](#projection_translate) 使给定的
+GeoJSON *object* 适应在 *extent* 范围中. *extent* 以 \[\[x₀, y₀\], \[x₁, y₁\]\] 的形式指定, 其中 x₀ 为包裹框的左边界, y₀ 为上边界, x₁ 为右边界, y₁ 为下边界. 返回投影.
 
-For example, to scale and translate the [New Jersey State Plane projection](https://bl.ocks.org/mbostock/5126418) to fit a GeoJSON object *nj* in the center of a 960×500 bounding box with 20 pixels of padding on each side:
+例如, 对 [New Jersey State Plane projection](https://bl.ocks.org/mbostock/5126418) 进行缩放和平移以将 GeoJSON 对象 *nj* 位于 960×500 的包裹框内, 并设置边距为 20:
 
 ```js
 var projection = d3.geoTransverseMercator()
@@ -210,11 +211,11 @@ var projection = d3.geoTransverseMercator()
     .fitExtent([[20, 20], [940, 480]], nj);
 ```
 
-Any [clip extent](#projection_clipExtent) is ignored when determining the new scale and translate. The [precision](#projection_precision) used to compute the bounding box of the given *object* is computed at an effective scale of 150.
+在确定了缩放和平移之后, 任何 [clip extent](#projection_clipExtent) 将会被忽略. 用来计算给定对象包裹框的 [precision](#projection_precision) 计算的有效等级为 150.
 
 <a href="#projection_fitSize" name="projection_fitSize">#</a> <i>projection</i>.<b>fitSize</b>(<i>size</i>, <i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-A convenience method for [*projection*.fitExtent](#projection_fitExtent) where the top-left corner of the extent is [0, 0]. The following two statements are equivalent:
+[*projection*.fitExtent](#projection_fitExtent) 的便捷用法, 其中左上角坐标为 [0, 0]. 下面两个用法是等效的:
 
 ```js
 projection.fitExtent([[0, 0], [width, height]], object);
@@ -223,11 +224,11 @@ projection.fitSize([width, height], object);
 
 <a href="#projection_fitWidth" name="projection_fitWidth">#</a> <i>projection</i>.<b>fitWidth</b>(<i>width</i>, <i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-A convenience method for [*projection*.fitSize](#projection_fitSize) where the height is automatically chosen from the aspect ratio of *object* and the given constraint on *width*.
+[*projection*.fitSize](#projection_fitSize) 的便捷用法, 其中高度是根据对象的宽高比和宽度自动计算的.
 
 <a href="#projection_fitHeight" name="projection_fitHeight">#</a> <i>projection</i>.<b>fitHeight</b>(<i>height</i>, <i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js "Source")
 
-A convenience method for [*projection*.fitSize](#projection_fitSize) where the width is automatically chosen from the aspect ratio of *object* and the given contraint on *height*.
+[*projection*.fitSize](#projection_fitSize) 的便捷用法, 其中宽度是根据对象的宽高比和高度自动计算的.
 
 #### Azimuthal Projections
 
