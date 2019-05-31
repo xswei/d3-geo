@@ -322,35 +322,35 @@ Conic projections project the sphere onto a cone, and then unroll the cone onto 
 
 #### Cylindrical Projections
 
-Cylindrical projections project the sphere onto a containing cylinder, and then unroll the cylinder onto the plane. [Pseudocylindrical projections](http://www.progonos.com/furuti/MapProj/Normal/ProjPCyl/projPCyl.html) are a generalization of cylindrical projections.
+圆柱投影将球体投射到一个圆柱体上, 然后将圆柱体展开到平面上. [Pseudocylindrical projections(伪圆柱投影)](http://www.progonos.com/furuti/MapProj/Normal/ProjPCyl/projPCyl.html) 是圆柱投影的延伸.
 
 <a href="#geoEquirectangular" name="geoEquirectangular">#</a> d3.<b>geoEquirectangular</b>() [<>](https://github.com/d3/d3-geo/blob/master/src/projection/equirectangular.js "Source")
 <br><a href="#geoEquirectangularRaw" name="geoEquirectangularRaw">#</a> d3.<b>geoEquirectangularRaw</b>
 
 [<img src="https://raw.githubusercontent.com/d3/d3-geo/master/img/equirectangular.png" width="480" height="250">](https://bl.ocks.org/mbostock/3757119)
 
-The equirectangular (plate carrée) projection.
+等矩形(圆柱)投影.
 
 <a href="#geoMercator" name="geoMercator">#</a> d3.<b>geoMercator</b>() [<>](https://github.com/d3/d3-geo/blob/master/src/projection/mercator.js "Source")
 <br><a href="#geoMercatorRaw" name="geoMercatorRaw">#</a> d3.<b>geoMercatorRaw</b>
 
 [<img src="https://raw.githubusercontent.com/d3/d3-geo/master/img/mercator.png" width="480" height="250">](https://bl.ocks.org/mbostock/3757132)
 
-The spherical Mercator projection. Defines a default [*projection*.clipExtent](#projection_clipExtent) such that the world is projected to a square, clipped to approximately ±85° latitude.
+球面墨卡托投影. 定义了默认的 [*projection*.clipExtent](#projection_clipExtent): 世界被投射到一个正方形上, 裁剪到大约 `±85°` 纬度.
 
 <a href="#geoTransverseMercator" name="geoTransverseMercator">#</a> d3.<b>geoTransverseMercator</b>() [<>](https://github.com/d3/d3-geo/blob/master/src/projection/transverseMercator.js "Source")
 <br><a href="#geoTransverseMercatorRaw" name="geoTransverseMercatorRaw">#</a> d3.<b>geoTransverseMercatorRaw</b>
 
 [<img src="https://raw.githubusercontent.com/d3/d3-geo/master/img/transverseMercator.png" width="480" height="250">](https://bl.ocks.org/mbostock/4695821)
 
-The transverse spherical Mercator projection. Defines a default [*projection*.clipExtent](#projection_clipExtent) such that the world is projected to a square, clipped to approximately ±85° latitude.
+横向球面墨卡托投影, 定义了默认的 [*projection*.clipExtent](#projection_clipExtent): 世界被投射到一个正方形上, 裁剪到大约 `±85°` 纬度.
 
 <a href="#geoNaturalEarth1" name="geoNaturalEarth1">#</a> d3.<b>geoNaturalEarth1</b>() [<>](https://github.com/d3/d3-geo/blob/master/src/projection/naturalEarth1.js "Source")
 <br><a href="#geoNaturalEarth1Raw" name="geoNaturalEarth1Raw">#</a> d3.<b>geoNaturalEarth1Raw</b>
 
 [<img src="https://raw.githubusercontent.com/d3/d3-geo/master/img/naturalEarth1.png" width="480" height="250">](https://bl.ocks.org/mbostock/4479477)
 
-The [Natural Earth projection](http://www.shadedrelief.com/NE_proj/) is a pseudocylindrical projection designed by Tom Patterson. It is neither conformal nor equal-area, but appealing to the eye for small-scale maps of the whole world.
+[Natural Earth projection(自然地球投影)](http://www.shadedrelief.com/NE_proj/) 是由 `Tom Patterson` 设计的伪圆柱投影. 它既不是等角也不是等角的, 但是看起来很吸引人, 像是一个缩小的世界.
 
 ### Raw Projections
 
