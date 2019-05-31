@@ -287,8 +287,6 @@ See [d3-composite-projections](http://geoexamples.com/d3-composite-projections/)
 
 圆锥投影将球体投射到圆锥上, 然后将圆锥展开到平面上. 圆锥投影有两条 [标准平行线](#conic_parallels).
 
-Conic projections project the sphere onto a cone, and then unroll the cone onto the plane. Conic projections have [two standard parallels](#conic_parallels).
-
 <a href="#conic_parallels" name="conic_parallels">#</a> <i>conic</i>.<b>parallels</b>([<i>parallels</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/conic.js "Source")
 
 在圆锥投影中定义地图布局的 [两个标准平行线](https://en.wikipedia.org/wiki/Map_projection#Conic).
