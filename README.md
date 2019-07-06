@@ -10,9 +10,9 @@ function mercator(x, y) {
 
 如果你的几何包含连续无限的点集时，这是一个合理的 *数学* 方法。然而，计算机并没有无限的内存，所以我们必须使用离散几何，比如多边形和折线!
 
-离散几何使得从球面投影到平面更加困难。球面多边形的边缘是[geodesics(测地线)](https://en.wikipedia.org/wiki/Geodesic)(大圆的部分)，而不是直线。测地线投射到平面上，除了 [gnomonic](#geoGnomonic) 之外所有的地图投影都是曲线，因此精确的投影需要沿每条弧插值。`D3` 使用 [adaptive sampling(自适应采样)](https://bl.ocks.org/mbostock/3795544)灵感来 [line simplification method(线简化方法)](https://bost.ocks.org/mike/simplify/)，以平衡精度和性能。
+离散几何使得从球面投影到平面更加困难。球面多边形的边缘是[geodesics(测地线)](https://en.wikipedia.org/wiki/Geodesic)[great arc](https://en.wikipedia.org/wiki/Great-circle_distance)()的部分)，而不是直线。测地线投射到平面上，除了 [gnomonic](#geoGnomonic) 之外所有的地图投影都是曲线，因此精确的投影需要沿每条弧插值。`D3` 使用 [adaptive sampling(自适应采样)](https://bl.ocks.org/mbostock/3795544)灵感来 [line simplification method(线简化方法)](https://bost.ocks.org/mike/simplify/)，以平衡精度和性能。
 
-多边形和折线的投影还必须处理球面与平面的拓扑差异。一些投影需要切割 [对向子午线](https://bl.ocks.org/mbostock/3788999) 的几何图形，而另一些投影则需要将几何图形 [裁剪为一个大圆](https://bl.ocks.org/mbostock/3021474)。
+多边形和折线的投影还必须处理球面与平面的拓扑差异。一些投影需要切割 [对向子午线](https://bl.ocks.org/mbostock/3788999) 的几何图形，而另一些投影则需要将几何图形 [裁剪为一[great arc](https://en.wikipedia.org/wiki/Great-circle_distance)()](https://bl.ocks.org/mbostock/3021474)。
 
 球面多边形还需要一个 [winding order convention(缠绕顺序约定)](https://bl.ocks.org/mbostock/a7bdfeb041e850799a8d3dce4d8c50c8) 来确定多边形的哪边是内边: 小于半球的多边形的外环必须是顺时针方向, 而 [larger than a hemisphere(大于半球的多边形的外环)](https://bl.ocks.org/mbostock/6713736) 必须是逆时针的. 代表孔的内圈必须使用与其外圈的相反的环绕顺序。这种环绕规则也被 [TopoJSON](https://github.com/topojson) 和 [ESRI shapefiles](https://github.com/mbostock/shapefile) 采用。但是，它与 `GeoJSON` 的 [RFC 7946]((https://tools.ietf.org/html/rfc7946#section-3.1.6)) **相反**。(另请注意，标准 `GeoJSON WGS84` 使用平面的等距坐标，而不是球面坐标，因此可能需要 [stitching](https://github.com/d3/d3-geo-projection/blob/master/README.md#geostitch) 以去除对对向子午线的切割)。
 
@@ -412,59 +412,60 @@ function conicCustom() {
 
 <a name="geoArea" href="#geoArea">#</a> d3.<b>geoArea</b>(<i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/area.js "Source")
 
-Returns the spherical area of the specified GeoJSON *object* in [steradians](http://mathworld.wolfram.com/Steradian.html). This is the spherical equivalent of [*path*.area](#path_area).
+返回指定的 `GeoJSON` 对象的球形区域的[立体角](http://mathworld.wolfram.com/Steradian.html). 等价于 [*path*.area](#path_area) 的球面形式.
 
 <a name="geoBounds" href="#geoBounds">#</a> d3.<b>geoBounds</b>(<i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/bounds.js "Source")
 
-Returns the [spherical bounding box](https://www.jasondavies.com/maps/bounds/) for the specified GeoJSON *object*. The bounding box is represented by a two-dimensional array: \[\[*left*, *bottom*], \[*right*, *top*\]\], where *left* is the minimum longitude, *bottom* is the minimum latitude, *right* is maximum longitude, and *top* is the maximum latitude. All coordinates are given in degrees. (Note that in projected planar coordinates, the minimum latitude is typically the maximum *y*-value, and the maximum latitude is typically the minimum *y*-value.) This is the spherical equivalent of [*path*.bounds](#path_bounds).
+返回指定 `GeoJSON` 对象的球面包围框. 包裹框以二维数组形式表示: \[\[*left*, *bottom*], \[*right*, *top*\]\], 其中  *left* 为最小经度, *bottom* 为最小纬度,  *right* 为最大经度, *top* 为最大纬度. 所有坐标都以度为单位. (注意, 在投影平面坐标中, 最小纬度通常是最大 `y` 值, 而最大纬度通常是最小 `y` 值) 等价于 [*path*.bounds](#path_bounds) 的球面形式.
 
 <a name="geoCentroid" href="#geoCentroid">#</a> d3.<b>geoCentroid</b>(<i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/centroid.js "Source")
 
-Returns the spherical centroid of the specified GeoJSON *object*. This is the spherical equivalent of [*path*.centroid](#path_centroid).
+返回指定 `GeoJSON` 对象的球形质心. 等价于 [*path*.centroid](#path_centroid) 的球面形式.
 
 <a name="geoDistance" href="#geoDistance">#</a> d3.<b>geoDistance</b>(<i>a</i>, <i>b</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/distance.js "Source")
 
-Returns the great-arc distance in [radians](http://mathworld.wolfram.com/Radian.html) between the two points *a* and *b*. Each point must be specified as a two-element array \[*longitude*, *latitude*\] in degrees. This is the spherical equivalent of [*path*.measure](#path_measure) given a LineString of two points.
+以[弧度](http://mathworld.wolfram.com/Radian.html)为单位返回两点 *a* 和 *b* 之间的弧长. 每个点都必须被指定为以度为单位的二元数组的形式: \[*longitude*, *latitude*\]. 等价于两点之间计算 [*path*.measure](#path_measure) 的球面形式.
 
 <a name="geoLength" href="#geoLength">#</a> d3.<b>geoLength</b>(<i>object</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/length.js "Source")
 
-Returns the great-arc length of the specified GeoJSON *object* in [radians](http://mathworld.wolfram.com/Radian.html). For polygons, returns the perimeter of the exterior ring plus that of any interior rings. This is the spherical equivalent of [*path*.measure](#path_measure).
+以[弧度](http://mathworld.wolfram.com/Radian.html)为单位返回指定 `GeoJSON` 对象的弧长. 如果是多边形则返回外环的周长加上任何内环的周长. 等价于 [*path*.measure](#path_measure) 的球面形式.
 
 <a name="geoInterpolate" href="#geoInterpolate">#</a> d3.<b>geoInterpolate</b>(<i>a</i>, <i>b</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/interpolate.js "Source")
 
-Returns an interpolator function given two points *a* and *b*. Each point must be specified as a two-element array \[*longitude*, *latitude*\] in degrees. The returned interpolator function takes a single argument *t*, where *t* is a number ranging from 0 to 1; a value of 0 returns the point *a*, while a value of 1 returns the point *b*. Intermediate values interpolate from *a* to *b* along the great arc that passes through both *a* and *b*. If *a* and *b* are antipodes, an arbitrary great arc is chosen.
+在给定的两个点 *a* 和 *b* 之间返回一个插值函数. 每个点都必须被指定为以度为单位的二元数组的形式: \[*longitude*, *latitude*\]. 返回的插值函数接收单个参数 *t*, 其中 *t* 为从 `0` 到 `1` 的数值. *t* 为 `0` 时插值函数返回点 *a*, *t* 为 `1` 时插值函数返回点 *b*. 中间值沿着经过 *a* 和 *b* [great arc](https://en.wikipedia.org/wiki/Great-circle_distance)()弧从 *a* 插值到 *b*. 如果 *a* 和 *b* 正相对应, 则选择任意[great arc](https://en.wikipedia.org/wiki/Great-circle_distance)()弧.
 
 <a name="geoContains" href="#geoContains">#</a> d3.<b>geoContains</b>(<i>object</i>, <i>point</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/contains.js "Source")
 
-Returns true if and only if the specified GeoJSON *object* contains the specified *point*, or false if the *object* does not contain the *point*. The point must be specified as a two-element array \[*longitude*, *latitude*\] in degrees. For Point and MultiPoint geometries, an exact test is used; for a Sphere, true is always returned; for other geometries, an epsilon threshold is applied.
+判断一个点是否被包含在指定的 `GeoJSON` 对象中, 如果是则返回 `true`, 否则返回 `false`. 指定的点必须被指定为以度为单位的二元数组的形式: \[*longitude*, *latitude*\]. 如果 `GeoJSON` 为点或者多个点则启用精确测试, 如果是球则总是返回 `true`; 对于其他的几何类型, 则使用一个很小的阈值来判断是否被包含.
 
 <a name="geoRotation" href="#geoRotation">#</a> d3.<b>geoRotation</b>(<i>angles</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/rotation.js "Source")
 
-Returns a [rotation function](#_rotation) for the given *angles*, which must be a two- or three-element array of numbers [*lambda*, *phi*, *gamma*] specifying the rotation angles in degrees about [each spherical axis](https://bl.ocks.org/mbostock/4282586). (These correspond to [yaw, pitch and roll](http://en.wikipedia.org/wiki/Aircraft_principal_axes).) If the rotation angle *gamma* is omitted, it defaults to 0. See also [*projection*.rotate](#projection_rotate).
+根据指定的 *angles* 返回一个[旋转函数](#_rotation), 其中 *angles* 必须是一个二元或三元数值数组 [*lambda*, *phi*, *gamma*] 用来表示在[每个球面轴](https://bl.ocks.org/mbostock/4282586) 上的旋转角度. (分别对应 [偏航，俯仰和横滚](http://en.wikipedia.org/wiki/Aircraft_principal_axes)) 如果省略了  *gamma* 则默认为 `0`. 参考 [*projection*.rotate](#projection_rotate).
 
 <a name="_rotation" href="#_rotation">#</a> <i>rotation</i>(<i>point</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/rotation.js "Source")
 
-Returns a new array \[*longitude*, *latitude*\] in degrees representing the rotated point of the given *point*. The point must be specified as a two-element array \[*longitude*, *latitude*\] in degrees.
+以角度为单位返回将给定的点经过旋转后新的点: \[*longitude*, *latitude*\]. 指定的点必须以度为单位的二元数组形式: \[*longitude*, *latitude*\].
 
 <a name="rotation_invert" href="#rotation_invert">#</a> <i>rotation</i>.<b>invert</b>(<i>point</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/rotation.js "Source")
 
-Returns a new array \[*longitude*, *latitude*\] in degrees representing the point of the given rotated *point*; the inverse of [*rotation*](#_rotation). The point must be specified as a two-element array \[*longitude*, *latitude*\] in degrees.
+根据指定的点返回该点经过旋转之前的点的坐标:  \[*longitude*, *latitude*\]. 是 [*rotation*](#_rotation)
+ 的逆运算, 同理指定的点也必须是以度为单位的二元数组形式.
 
 ### Spherical Shapes
 
-To generate a [great arc](https://en.wikipedia.org/wiki/Great-circle_distance) (a segment of a great circle), simply pass a GeoJSON LineString geometry object to a [d3.geoPath](#geoPath). D3’s projections use great-arc interpolation for intermediate points, so there’s no need for a great arc shape generator.
+在生成 [great arc](https://en.wikipedia.org/wiki/Great-circle_distance)(大圆弧的一部分)时, 只需要给 [d3.geoPath](#geoPath) 传入 `GeoJSON LineString` 对象即可. `D3` 的插值器使用大圆插值进行内部点插值, 因此不需要大圆弧生成器. 
 
 <a name="geoCircle" href="#geoCircle">#</a> d3.<b>geoCircle</b>() [<>](https://github.com/d3/d3-geo/blob/master/src/circle.js "Source")
 
-Returns a new circle generator.
+返回一个新的圆生成器。
 
 <a name="_circle" href="#_circle">#</a> <i>circle</i>(<i>arguments…</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/circle.js "Source")
 
-Returns a new GeoJSON geometry object of type “Polygon” approximating a circle on the surface of a sphere, with the current [center](#circle_center), [radius](#circle_radius) and [precision](#circle_precision). Any *arguments* are passed to the accessors.
+使用当前的 [center](#circle_center), [radius](#circle_radius) 和 [precision](#circle_precision) 返回一个新的 `GeoJSON` 几何对象, 类型为 `Polygon`, 近似于球体表面上的一个圆. 任何参数都传递给访问器.
 
 <a name="circle_center" href="#circle_center">#</a> <i>circle</i>.<b>center</b>([<i>center</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/circle.js "Source")
 
-If *center* is specified, sets the circle center to the specified point \[*longitude*, *latitude*\] in degrees, and returns this circle generator. The center may also be specified as a function; this function will be invoked whenever a circle is [generated](#_circle), being passed any arguments passed to the circle generator. If *center* is not specified, returns the current center accessor, which defaults to:
+如果指定了 *center* 则将当前圆生成器的中心设置为指定的以度为单位的点: \[*longitude*, *latitude*\] 并返回圆生成器. 中心点可以指定为一个函数; 无论何时生成一个圆, 都会调用此函数, 并将传递给圆生成器的任何参数. 如果 *center* 没有被指定则返回当前的中心访问器, 默认为:
 
 ```js
 function center() {
@@ -474,7 +475,7 @@ function center() {
 
 <a name="circle_radius" href="#circle_radius">#</a> <i>circle</i>.<b>radius</b>([<i>radius</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/circle.js "Source")
 
-If *radius* is specified, sets the circle radius to the specified angle in degrees, and returns this circle generator. The radius may also be specified as a function; this function will be invoked whenever a circle is [generated](#_circle), being passed any arguments passed to the circle generator. If *radius* is not specified, returns the current radius accessor, which defaults to:
+如果指定了 *radius* 则将当前圆生成器的半径设置为指定的角度(以角度为单位)并返回圆生成器. *radius* 可以指定为一个函数; 无论何时生成一个圆, 都会调用此函数, 并将传递给圆生成器的任何参数. 如果 *radius* 没有被指定则返回当前的半径访问器, 默认为:
 
 ```js
 function radius() {
@@ -484,7 +485,7 @@ function radius() {
 
 <a name="circle_precision" href="#circle_precision">#</a> <i>circle</i>.<b>precision</b>([<i>angle</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/circle.js "Source")
 
-If *precision* is specified, sets the circle precision to the specified angle in degrees, and returns this circle generator. The precision may also be specified as a function; this function will be invoked whenever a circle is [generated](#_circle), being passed any arguments passed to the circle generator. If *precision* is not specified, returns the current precision accessor, which defaults to:
+如果指定的 *precision* 则将圆生成器的精度设置为指定的度并返回圆生成器. 精度可以指定为函数形式; 无论何时生成一个圆, 都会调用此函数, 并将传递给圆生成器的任何参数. 如果没有指定 *precision* 则返回当前的精度访问器, 默认为:
 
 ```js
 function precision() {
@@ -492,57 +493,57 @@ function precision() {
 }
 ```
 
-Small circles do not follow great arcs and thus the generated polygon is only an approximation. Specifying a smaller precision angle improves the accuracy of the approximate polygon, but also increase the cost to generate and render it.
+小圆不遵循大圆弧，因此生成的多边形只是一个近似, 指定一个较小的精确角度可以提高多边形的精度, 但也增加了生成和渲染它的成本.
 
 <a name="geoGraticule" href="#geoGraticule">#</a> d3.<b>geoGraticule</b>() [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-Constructs a geometry generator for creating graticules: a uniform grid of [meridians](https://en.wikipedia.org/wiki/Meridian_\(geography\)) and [parallels](https://en.wikipedia.org/wiki/Circle_of_latitude) for showing projection distortion. The default graticule has meridians and parallels every 10° between ±80° latitude; for the polar regions, there are meridians every 90°.
+构造用于创建经纬网的几何生成器: 一种由[经线](https://en.wikipedia.org/wiki/Meridian_\(geography\))和[纬线](https://en.wikipedia.org/wiki/Circle_of_latitude)组成的均匀网格, 用于显示投影变形. 默认的经纬网的经纬线在 ±80° 之间每隔 10° 设置一条线. 对于极地地区则是 90°.
 
 <img src="https://raw.githubusercontent.com/d3/d3-geo/master/img/graticule.png" width="480" height="360">
 
 <a name="_graticule" href="#_graticule">#</a> <i>graticule</i>() [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-Returns a GeoJSON MultiLineString geometry object representing all meridians and parallels for this graticule.
+返回一个 `GeoJSON MultiLineString` 几何对象, 该对象表示此分划线的所有经纬线.
 
 <a name="graticule_lines" href="#graticule_lines">#</a> <i>graticule</i>.<b>lines</b>() [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-Returns an array of GeoJSON LineString geometry objects, one for each meridian or parallel for this graticule.
+返回一个 `GeoJSON LineString` 几何对象数组, 每个经线对应一个对象.
 
 <a name="graticule_outline" href="#graticule_outline">#</a> <i>graticule</i>.<b>outline</b>() [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-Returns a GeoJSON Polygon geometry object representing the outline of this graticule, i.e. along the meridians and parallels defining its extent.
+返回一个 `GeoJSON` 多边形几何对象, 表示这个经纬网的轮廓, 也就是经纬网的边界.
 
 <a name="graticule_extent" href="#graticule_extent">#</a> <i>graticule</i>.<b>extent</b>([<i>extent</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-If *extent* is specified, sets the major and minor extents of this graticule. If *extent* is not specified, returns the current minor extent, which defaults to ⟨⟨-180°, -80° - ε⟩, ⟨180°, 80° + ε⟩⟩.
+如果指定了 *extent* 则设置经纬网的主要和次要边界. 如果没有指定 *extent* 则返回当前次要边界, 默认为 ⟨⟨-180°, -80° - ε⟩, ⟨180°, 80° + ε⟩⟩.
 
 <a name="graticule_extentMajor" href="#graticule_extentMajor">#</a> <i>graticule</i>.<b>extentMajor</b>([<i>extent</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-If *extent* is specified, sets the major extent of this graticule. If *extent* is not specified, returns the current major extent, which defaults to ⟨⟨-180°, -90° + ε⟩, ⟨180°, 90° - ε⟩⟩.
+如果指定了 *extent* 则设置经纬网的主要边界. 如果没有指定 *extent* 则返回当前经纬网主要边界, 默认为 ⟨⟨-180°, -90° + ε⟩, ⟨180°, 90° - ε⟩⟩.
 
 <a name="graticule_extentMinor" href="#graticule_extentMinor">#</a> <i>graticule</i>.<b>extentMinor</b>([<i>extent</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-If *extent* is specified, sets the minor extent of this graticule. If *extent* is not specified, returns the current minor extent, which defaults to ⟨⟨-180°, -80° - ε⟩, ⟨180°, 80° + ε⟩⟩.
+如果指定了 *extent* 则设置经纬网的次要边界. 如果没有指定 *extent* 则返回当前次要边界, 默认为 ⟨⟨-180°, -80° - ε⟩, ⟨180°, 80° + ε⟩⟩.
 
 <a name="graticule_step" href="#graticule_step">#</a> <i>graticule</i>.<b>step</b>([<i>step</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-If *step* is specified, sets the major and minor step for this graticule. If *step* is not specified, returns the current minor step, which defaults to ⟨10°, 10°⟩.
+如果指定了 *step* 则设置经纬网的主要和次要步长. 如果没有指定 *step* 则返回经纬网的次要步长, 默认为 ⟨10°, 10°⟩.
 
 <a name="graticule_stepMajor" href="#graticule_stepMajor">#</a> <i>graticule</i>.<b>stepMajor</b>([<i>step</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-If *step* is specified, sets the major step for this graticule. If *step* is not specified, returns the current major step, which defaults to ⟨90°, 360°⟩.
+如果指定了 *step* 则设置经纬网的主要步长. 如果没有指定 *step* 则返回经纬网的主要步长, 默认为 ⟨90°, 360°⟩.
 
 <a name="graticule_stepMinor" href="#graticule_stepMinor">#</a> <i>graticule</i>.<b>stepMinor</b>([<i>step</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-If *step* is specified, sets the minor step for this graticule. If *step* is not specified, returns the current minor step, which defaults to ⟨10°, 10°⟩.
+如果指定了 *step* 则设置经纬网的次要步长. 如果没有指定 *step* 则返回经纬网的主要步长, 默认为 ⟨10°, 10°⟩.
 
 <a name="graticule_precision" href="#graticule_precision">#</a> <i>graticule</i>.<b>precision</b>([<i>angle</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-If *precision* is specified, sets the precision for this graticule, in degrees. If *precision* is not specified, returns the current precision, which defaults to 2.5°.
+如果指定了 *precision* 则以度为单位设置经纬网的精度. 如果没有指定 *precision* 则返回当前精度, 默认为 2.5°.
 
 <a name="geoGraticule10" href="#geoGraticule10">#</a> d3.<b>geoGraticule10</b>() [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-A convenience method for directly generating the default 10° global graticule as a GeoJSON MultiLineString geometry object. Equivalent to:
+一个方便的方法, 直接生成默认的 10° 的全球经纬网, 以 `GeoJSON MultiLineString` 对象形式返回。等价于:
 
 ```js
 function geoGraticule10() {
