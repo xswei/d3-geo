@@ -553,9 +553,11 @@ function geoGraticule10() {
 
 ### Streams
 
-D3 transforms geometry using a sequence of function calls, rather than materializing intermediate representations, to minimize overhead. Streams must implement several methods to receive input geometry. Streams are inherently stateful; the meaning of a [point](#point) depends on whether the point is inside of a [line](#lineStart), and likewise a line is distinguished from a ring by a [polygon](#polygonStart). Despite the name “stream”, these method calls are currently synchronous.
+`D3` 使用一系列函数调用进行几何转换, 过渡过程中的中间值不被表现出来, 以最小化开销. 流必须实现多个方法来接收输入几何图形. 流本质上是有状态的; [point](#point) 的定义取决于该点是否在 [line](#lineStart) 内, 同样地线与环的区别是由 [polygon](#polygonStart) 决定的. 尽管被命名为 “流” 但是这些方法是被同步调用的.
 
 <a href="#geoStream" name="geoStream">#</a> d3.<b>geoStream</b>(<i>object</i>, <i>stream</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/stream.js "Source")
+
+将指定的 `GeoJSON` 对象流到指定的投影流. 虽然特性和几何对象都支持作为输入, 但是流接口只描述几何形状, 因此其他特性属性对流来说是不可见的.
 
 Streams the specified [GeoJSON](http://geojson.org) *object* to the specified [projection *stream*](#projection-streams). While both features and geometry objects are supported as input, the stream interface only describes the geometry, and thus additional feature properties are not visible to streams.
 
@@ -607,11 +609,13 @@ Indicates the sphere (the globe; the unit sphere centered at ⟨0,0,0⟩).
 
 ### Transforms
 
+变换是投影的推广. 变换实现了 [*projection*.stream](#projection_stream) 并且可以被传递给 [*path*.projection](#path_projection). 然而, 变换仅仅实现的是一个投影方法子集, 并且表示任意的几何变换, 而不仅仅是球面到平面的投影.
+
 Transforms are a generalization of projections. Transform implement [*projection*.stream](#projection_stream) and can be passed to [*path*.projection](#path_projection). However, they only implement a subset of the other projection methods, and represent arbitrary geometric transformations rather than projections from spherical to planar coordinates.
 
 <a href="#geoTransform" name="geoTransform">#</a> d3.<b>geoTransform</b>(<i>methods</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/transform.js "Source")
 
-Defines an arbitrary transform using the methods defined on the specified *methods* object. Any undefined methods will use pass-through methods that propagate inputs to the output stream. For example, to reflect the *y*-dimension (see also [*identity*.reflectY](#identity_reflectY)):
+使用指定的方法对象定义一个任意的转换. 任何未定义的方法都将使用直通的方式将输入到输出流. 例如, 反转 `y` 维度(参考 [*identity*.reflectY](#identity_reflectY)):
 
 ```js
 var reflectY = d3.geoTransform({
@@ -621,7 +625,7 @@ var reflectY = d3.geoTransform({
 });
 ```
 
-Or to define an affine matrix transformation:
+或者定义仿射矩阵变换:
 
 ```js
 function matrix(a, b, c, d, tx, ty) {
@@ -635,42 +639,42 @@ function matrix(a, b, c, d, tx, ty) {
 
 <a href="#geoIdentity" name="geoIdentity">#</a> d3.<b>geoIdentity</b>() [<>](https://github.com/d3/d3-geo/blob/master/src/projection/identity.js "Source")
 
-The identity transform can be used to scale, translate and clip planar geometry. It implements [*projection*.scale](#projection_scale), [*projection*.translate](#projection_translate), [*projection*.fitExtent](#projection_fitExtent), [*projection*.fitSize](#projection_fitSize), [*projection*.fitWidth](#projection_fitWidth), [*projection*.fitHeight](#projection_fitHeight) and [*projection*.clipExtent](#projection_clipExtent).
+单位变换可用于缩放、平移和剪切平面几何图形. 它实现了 [*projection*.scale](#projection_scale), [*projection*.translate](#projection_translate), [*projection*.fitExtent](#projection_fitExtent), [*projection*.fitSize](#projection_fitSize), [*projection*.fitWidth](#projection_fitWidth), [*projection*.fitHeight](#projection_fitHeight) 和 [*projection*.clipExtent](#projection_clipExtent).
 
 <a href="#identity_reflectX" name="identity_reflectX">#</a> <i>identity</i>.<b>reflectX</b>([<i>reflect</i>])
 
-If *reflect* is specified, sets whether or not the *x*-dimension is reflected (negated) in the output. If *reflect* is not specified, returns true if *x*-reflection is enabled, which defaults to false.
+如果指定了 *reflect* , 则设置是否在输出中反转 `x` 维度. 如果没有指定 *reflect* 则返回当前是否反转 `x`, 默认为 `false`.
 
 <a href="#identity_reflectY" name="identity_reflectY">#</a> <i>identity</i>.<b>reflectY</b>([<i>reflect</i>])
 
-If *reflect* is specified, sets whether or not the *y*-dimension is reflected (negated) in the output. If *reflect* is not specified, returns true if *y*-reflection is enabled, which defaults to false. This is especially useful for transforming from standard [spatial reference systems](https://en.wikipedia.org/wiki/Spatial_reference_system), which treat positive *y* as pointing up, to display coordinate systems such as Canvas and SVG, which treat positive *y* as pointing down.
+如果指定了 *reflect* 则设置是否在输出中反转 `x` 维度. 如果没有指定 *reflect* 则返回当前是否反转 `x`, 默认为 `false`. 这在从标准的 [spatial reference systems](https://en.wikipedia.org/wiki/Spatial_reference_system) 转换时非常有用, 在此类系统中, *y* 方向是向上的, 而显示的时候比如 `Canvas` 和 `SVG` 则 *y* 是向下的.
 
 ### Clipping
 
-Projections perform cutting or clipping of geometries in two stages.
+投影分两个阶段完成几何图形的切割或剪裁.
 
 <a name="preclip" href="#preclip">#</a> <i>preclip</i>(<i>stream</i>)
 
-Pre-clipping occurs in geographic coordinates. Cutting along the antimeridian line, or clipping along a small circle are the most common strategies.
+预剪切发生在地理坐标中. 沿着180度经线切割. 或者沿着一个纬线切割是最常见的策略.
 
-See [*projection*.preclip](#projection_preclip).
+参考 [*projection*.preclip](#projection_preclip).
 
 <a name="postclip" href="#postclip">#</a> <i>postclip</i>(<i>stream</i>)
 
-Post-clipping occurs on the plane, when a projection is bounded to a certain extent such as a rectangle.
+后期剪切发生在平面上, 当一个投影有一定的边界时, 例如一个将投影限制在一个矩形框中.
 
-See [*projection*.postclip](#projection_postclip).
+参考 [*projection*.postclip](#projection_postclip).
 
-Clipping functions are implemented as transformations of a [projection stream](#streams). Pre-clipping operates on spherical coordinates, in radians. Post-clipping operates on planar coordinates, in pixels.
+裁剪函数以 [projection stream](#streams) 转换的形式实现. 预剪切操作在球面坐标上，以弧度为单位. 后剪接操作在平面坐标上，以像素为单位.
 
 <a name="geoClipAntimeridian" href="#geoClipAntimeridian">#</a> d3.<b>geoClipAntimeridian</b>
 
-A clipping function which transforms a stream such that geometries (lines or polygons) that cross the antimeridian line are cut in two, one on each side. Typically used for pre-clipping.
+一个剪切函数, 使跨越180度经线的几何图形流(线或多边形)被切成两半，每一边各一个. 通常用于预剪切.
 
 <a name="geoClipCircle" href="#geoClipCircle">#</a> d3.<b>geoClipCircle</b>(<i>angle</i>)
 
-Generates a clipping function which transforms a stream such that geometries are bounded by a small circle of radius *angle* around the projection’s [center](#projection_center). Typically used for pre-clipping.
+生成一个剪切函数, 该函数转换流使得几何图形以围绕投影 [center](#projection_center) 的小半径角为界. 通常用于预剪切.
 
 <a name="geoClipRectangle" href="#geoClipRectangle">#</a> d3.<b>geoClipRectangle</b>(<i>x0</i>, <i>y0</i>, <i>x1</i>, <i>y1</i>)
 
-Generates a clipping function which transforms a stream such that geometries are bounded by a rectangle of coordinates [[<i>x0</i>, <i>y0</i>], [<i>x1</i>, <i>y1</i>]]. Typically used for post-clipping.
+生成一个剪切函数, 该函数转换流使几何图形以矩形坐标框 [[x0, y0]， [x1, y1]] 为边界. 通常用于后期剪切.
