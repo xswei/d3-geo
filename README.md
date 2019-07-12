@@ -553,25 +553,23 @@ function geoGraticule10() {
 
 ### Streams
 
-`D3` 使用一系列函数调用进行几何转换, 过渡过程中的中间值不被表现出来, 以最小化开销. 流必须实现多个方法来接收输入几何图形. 流本质上是有状态的; [point](#point) 的定义取决于该点是否在 [line](#lineStart) 内, 同样地线与环的区别是由 [polygon](#polygonStart) 决定的. 尽管被命名为 “流” 但是这些方法是被同步调用的.
+`D3` 使用一系列函数调用进行几何转换, 过渡过程中的中间值不被保存以最小化开销. 流必须实现多个方法来接收输入几何图形. 流本质上是有状态的; [point](#point) 的定义取决于该点是否在 [line](#lineStart) 内, 同样地线与环的区别是由 [polygon](#polygonStart) 决定的. 尽管被命名为 “流” 但是这些方法是被同步调用的.
 
 <a href="#geoStream" name="geoStream">#</a> d3.<b>geoStream</b>(<i>object</i>, <i>stream</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/stream.js "Source")
 
-将指定的 `GeoJSON` 对象流到指定的投影流. 虽然特性和几何对象都支持作为输入, 但是流接口只描述几何形状, 因此其他特性属性对流来说是不可见的.
-
-Streams the specified [GeoJSON](http://geojson.org) *object* to the specified [projection *stream*](#projection-streams). While both features and geometry objects are supported as input, the stream interface only describes the geometry, and thus additional feature properties are not visible to streams.
+将指定的 `GeoJSON` 对象流到指定的投影流. 虽然 `features` 和 `geometry` 对象都支持作为输入, 但是流接口只描述几何形状, 因此其他特性属性对流来说是不可见的.
 
 <a name="stream_point" href="#stream_point">#</a> <i>stream</i>.<b>point</b>(<i>x</i>, <i>y</i>[, <i>z</i>])
 
-Indicates a point with the specified coordinates *x* and *y* (and optionally *z*). The coordinate system is unspecified and implementation-dependent; for example, [projection streams](https://github.com/d3/d3-geo-projection) require spherical coordinates in degrees as input. Outside the context of a polygon or line, a point indicates a point geometry object ([Point](http://www.geojson.org/geojson-spec.html#point) or [MultiPoint](http://www.geojson.org/geojson-spec.html#multipoint)). Within a line or polygon ring, the point indicates a control point.
+指示具有指定坐标 *x* 和 *y* (以及可选的 *z* )的点. 坐标系统未指定并且依赖于实现; 例如, [projection streams](https://github.com/d3/d3-geo-projection) 需要以角度为单位的球面坐标作为输入. 除了多边形和线上下文外, 点表示点对象([Point](http://www.geojson.org/geojson-spec.html#point) or [MultiPoint](http://www.geojson.org/geojson-spec.html#multipoint)). 在线或者多边形里, 点表示的是路径上的点坐标.
 
 <a name="stream_lineStart" href="#stream_lineStart">#</a> <i>stream</i>.<b>lineStart</b>()
 
-Indicates the start of a line or ring. Within a polygon, indicates the start of a ring. The first ring of a polygon is the exterior ring, and is typically clockwise. Any subsequent rings indicate holes in the polygon, and are typically counterclockwise.
+表示线或者多边形的起点. 在多边形里, 表示环的起点. 多边形的第一个环是外环, 通常是顺时针方向. 任何随后的环表示多边形上的孔, 通常是逆时针方向的.
 
 <a name="stream_lineEnd" href="#stream_lineEnd">#</a> <i>stream</i>.<b>lineEnd</b>()
 
-Indicates the end of a line or ring. Within a polygon, indicates the end of a ring. Unlike GeoJSON, the redundant closing coordinate of a ring is *not* indicated via [point](#point), and instead is implied via lineEnd within a polygon. Thus, the given polygon input:
+表示线或者多边形的终点. 在多边形里, 表示环的终点. 与 `GeoJSON` 不同, 环的冗余闭合坐标不通过 [point](#point) 表示, 而是通过多边形中的 `lineEnd` 隐含. 因此, 给定的多边形输入:
 
 ```json
 {
@@ -582,7 +580,7 @@ Indicates the end of a line or ring. Within a polygon, indicates the end of a ri
 }
 ```
 
-Will produce the following series of method calls on the stream:
+将调用流的以下方法:
 
 ```js
 stream.polygonStart();
@@ -590,28 +588,26 @@ stream.lineStart();
 stream.point(0, 0);
 stream.point(0, 1);
 stream.point(1, 1);
-stream.point(1, 0);
+stream.point(1, 0);  // 结束，不会调用 stream.point(0, 0)
 stream.lineEnd();
 stream.polygonEnd();
 ```
 
 <a name="stream_polygonStart" href="#stream_polygonStart">#</a> <i>stream</i>.<b>polygonStart</b>()
 
-Indicates the start of a polygon. The first line of a polygon indicates the exterior ring, and any subsequent lines indicate interior holes.
+表示多边形的开始. 多边形的第一行表示外部环, 后面的任何一行表示内部孔.
 
 <a name="stream_polygonEnd" href="#stream_polygonEnd">#</a> <i>stream</i>.<b>polygonEnd</b>()
 
-Indicates the end of a polygon.
+表示多边形的结束. 
 
 <a name="stream_sphere" href="#stream_sphere">#</a> <i>stream</i>.<b>sphere</b>()
 
-Indicates the sphere (the globe; the unit sphere centered at ⟨0,0,0⟩).
+表示球(地球, 球心在 ⟨0,0,0⟩ 的单位球).
 
 ### Transforms
 
 变换是投影的推广. 变换实现了 [*projection*.stream](#projection_stream) 并且可以被传递给 [*path*.projection](#path_projection). 然而, 变换仅仅实现的是一个投影方法子集, 并且表示任意的几何变换, 而不仅仅是球面到平面的投影.
-
-Transforms are a generalization of projections. Transform implement [*projection*.stream](#projection_stream) and can be passed to [*path*.projection](#path_projection). However, they only implement a subset of the other projection methods, and represent arbitrary geometric transformations rather than projections from spherical to planar coordinates.
 
 <a href="#geoTransform" name="geoTransform">#</a> d3.<b>geoTransform</b>(<i>methods</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/transform.js "Source")
 
