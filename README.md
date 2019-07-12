@@ -515,27 +515,27 @@ function precision() {
 
 <a name="graticule_extent" href="#graticule_extent">#</a> <i>graticule</i>.<b>extent</b>([<i>extent</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-如果指定了 *extent* 则设置经纬网的主要和次要边界. 如果没有指定 *extent* 则返回当前次要边界, 默认为 ⟨⟨-180°, -80° - ε⟩, ⟨180°, 80° + ε⟩⟩.
+如果指定了 *extent* 则设置经纬网的经度和纬度边界. 如果没有指定 *extent* 则返回当前纬度边界, 默认为 ⟨⟨-180°, -80° - ε⟩, ⟨180°, 80° + ε⟩⟩.
 
 <a name="graticule_extentMajor" href="#graticule_extentMajor">#</a> <i>graticule</i>.<b>extentMajor</b>([<i>extent</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-如果指定了 *extent* 则设置经纬网的主要边界. 如果没有指定 *extent* 则返回当前经纬网主要边界, 默认为 ⟨⟨-180°, -90° + ε⟩, ⟨180°, 90° - ε⟩⟩.
+如果指定了 *extent* 则设置经纬网的经度边界. 如果没有指定 *extent* 则返回当前经纬网经度边界, 默认为 ⟨⟨-180°, -90° + ε⟩, ⟨180°, 90° - ε⟩⟩.
 
 <a name="graticule_extentMinor" href="#graticule_extentMinor">#</a> <i>graticule</i>.<b>extentMinor</b>([<i>extent</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-如果指定了 *extent* 则设置经纬网的次要边界. 如果没有指定 *extent* 则返回当前次要边界, 默认为 ⟨⟨-180°, -80° - ε⟩, ⟨180°, 80° + ε⟩⟩.
+如果指定了 *extent* 则设置经纬网的纬度边界. 如果没有指定 *extent* 则返回当前纬度边界, 默认为 ⟨⟨-180°, -80° - ε⟩, ⟨180°, 80° + ε⟩⟩.
 
 <a name="graticule_step" href="#graticule_step">#</a> <i>graticule</i>.<b>step</b>([<i>step</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-如果指定了 *step* 则设置经纬网的主要和次要步长. 如果没有指定 *step* 则返回经纬网的次要步长, 默认为 ⟨10°, 10°⟩.
+如果指定了 *step* 则设置经纬网的经度和纬度步长. 如果没有指定 *step* 则返回经纬网的纬度步长, 默认为 ⟨10°, 10°⟩.
 
 <a name="graticule_stepMajor" href="#graticule_stepMajor">#</a> <i>graticule</i>.<b>stepMajor</b>([<i>step</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-如果指定了 *step* 则设置经纬网的主要步长. 如果没有指定 *step* 则返回经纬网的主要步长, 默认为 ⟨90°, 360°⟩.
+如果指定了 *step* 则设置经纬网的经度步长. 如果没有指定 *step* 则返回经纬网的经度步长, 默认为 ⟨90°, 360°⟩.
 
 <a name="graticule_stepMinor" href="#graticule_stepMinor">#</a> <i>graticule</i>.<b>stepMinor</b>([<i>step</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
-如果指定了 *step* 则设置经纬网的次要步长. 如果没有指定 *step* 则返回经纬网的主要步长, 默认为 ⟨10°, 10°⟩.
+如果指定了 *step* 则设置经纬网的纬度步长. 如果没有指定 *step* 则返回经纬网的经度步长, 默认为 ⟨10°, 10°⟩.
 
 <a name="graticule_precision" href="#graticule_precision">#</a> <i>graticule</i>.<b>precision</b>([<i>angle</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/graticule.js "Source")
 
